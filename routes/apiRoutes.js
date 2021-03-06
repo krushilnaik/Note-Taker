@@ -18,7 +18,6 @@ router.get('/notes', (req, res) => {
 // create a post request
 
 router.post("/notes", (req, res) => {
-	console.log("attempting post request");
 	store
 		.getNotes()
 		.then(notes => {
@@ -31,8 +30,8 @@ router.post("/notes", (req, res) => {
 		note.id = noteList.length;
 
 		noteList.push(note);
+
 		console.log(`noteList is now:`, noteList);
-		console.log(JSON.stringify(noteList, null, "\t"));
 
 		fs.writeFile("./db/db.json", JSON.stringify(noteList, null, "\t"), err => res.json(err));
 	}).catch((err) => res.status(500).json(err));
