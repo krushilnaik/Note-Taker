@@ -23,7 +23,6 @@ router.post("/notes", (req, res) => {
 		 * @type {object[]}
 		 */
 		let noteList = notes;
-		noteList.forEach((note, i) => note.id = i + 1);
 
 		let note = req.body;
 		note.id = noteList.length + 1;
@@ -46,6 +45,7 @@ router.delete("/notes/:id", (req, res) => {
 		let noteList = notes;
 
 		const removed = noteList.splice(Number(req.params.id) - 1, 1);
+		noteList.forEach((note, i) => note.id = i + 1);
 
 		fs.writeFile("./db/db.json", JSON.stringify(noteList, null, "\t") + "\n", err => res.json(err));
 
