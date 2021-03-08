@@ -18,16 +18,15 @@ router.get('/notes', (req, res) => {
 // create a post request
 
 router.post("/notes", (req, res) => {
-	store
-		.getNotes()
-		.then(notes => {
+	store.getNotes().then(notes => {
 		/**
 		 * @type {object[]}
 		 */
 		let noteList = notes;
+		noteList.forEach((note, i) => note.id = i + 1);
 
 		let note = req.body;
-		note.id = noteList.length;
+		note.id = noteList.length + 1;
 
 		noteList.push(note);
 
@@ -46,7 +45,7 @@ router.delete("/notes/:id", (req, res) => {
 		 */
 		let noteList = notes;
 
-		const removed = noteList.splice(Number(req.params.id), 1);
+		const removed = noteList.splice(Number(req.params.id) - 1, 1);
 
 		fs.writeFile("./db/db.json", JSON.stringify(noteList, null, "\t") + "\n", err => res.json(err));
 
